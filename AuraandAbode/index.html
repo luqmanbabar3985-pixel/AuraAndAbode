@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura & Abode | High-End Luxury</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a059; --black: #121212; --white: #ffffff; --cream: #f4eee1; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--white); margin: 0; overflow-x: hidden; color: var(--black); }
+
+        /* Floating Luxury Icons - High Visibility */
+        .float-icon {
+            position: absolute;
+            font-size: 50px;
+            color: var(--gold);
+            opacity: 0.4; /* Isay barha diya hai taake saaf dikhe */
+            z-index: 1;
+            pointer-events: none;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+            animation: luxuryFloat 8s infinite ease-in-out;
+        }
+
+        @keyframes luxuryFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(20deg); }
+        }
+
+        /* Layout Styles */
+        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: rgba(255,255,255,0.95); z-index: 1000; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 2rem; letter-spacing: 5px; font-weight: 700; }
+        
+        .hero { height: 70vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; position: relative; overflow: hidden; }
+        .hero h2 { font-family: 'Playfair Display', serif; font-size: 4rem; font-style: italic; position: relative; z-index: 5; }
+
+        .main-container { max-width: 1400px; margin: 100px auto; padding: 0 40px; position: relative; }
+        .section-header { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 20px; position: relative; z-index: 5; }
+        .section-header h2 { font-family: 'Playfair Display', serif; font-size: 3rem; }
+
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 50px; position: relative; z-index: 5; }
+        .product-card { background: white; border: 1px solid #eee; padding: 20px; transition: 0.4s; }
+        .product-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        
+        .img-holder { width: 100%; height: 400px; background: #f9f9f9; overflow: hidden; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+        .product-card:hover .product-img { transform: scale(1.1); }
+
+        /* Admin & Secret Access */
+        #adminPanel { display: none; position: fixed; bottom: 80px; right: 40px; background: white; padding: 35px; width: 320px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); z-index: 9999; border: 2px solid var(--gold); }
+        .admin-btn { background: var(--black); color: white; padding: 15px; width: 100%; border: none; cursor: pointer; font-weight: bold; }
+        .secret-dot { position: fixed; bottom: 10px; right: 10px; width: 12px; height: 12px; cursor: pointer; opacity: 0.05; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">AURA & ABODE</div>
+    <div style="font-size: 0.8rem; letter-spacing: 2px;">BEAUTY • INTERIORS • LIFESTYLE</div>
+</nav>
+
+<div class="hero">
+    <div class="float-icon" style="top: 15%; left: 10%;">💄</div>
+    <div class="float-icon" style="top: 20%; right: 15%; animation-delay: 2s;">🕯️</div>
+    <div class="float-icon" style="bottom: 20%; left: 20%; animation-delay: 4s;">🖌️</div>
+    
+    <div>
+        <p style="letter-spacing: 8px; color: var(--gold);">EST. 2026</p>
+        <h2>The Art of Refined Living</h2>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="float-icon" style="left: -80px; top: 100px; font-size: 80px; opacity: 0.2;">✨</div>
+
+    <div id="beauty" class="section-header">
+        <h2>Beauty Edit</h2>
+    </div>
+    <div id="beautyGrid" class="products-grid">
+        </div>
+
+    <div class="float-icon" style="right: -60px; top: 800px; font-size: 90px; opacity: 0.2;">🪑</div>
+
+    <div id="home" class="section-header" style="margin-top: 150px;">
+        <h2>Home Collection</h2>
+    </div>
+    <div id="homeGrid" class="products-grid">
+        </div>
+</div>
+
+<div id="adminPanel">
+    <div style="text-align: right; cursor: pointer; font-weight: bold;" onclick="closeAdmin()">CLOSE ✕</div>
+    <h3 style="font-family: 'Playfair Display';">Add New Masterpiece</h3>
+    <input type="text" id="pName" placeholder="Product Title" style="width:100%; margin: 10px 0; padding: 10px;">
+    <input type="text" id="pImg" placeholder="Image URL (Link)" style="width:100%; margin: 10px 0; padding: 10px;">
+    <input type="text" id="pLink" placeholder="Affiliate Link" style="width:100%; margin: 10px 0; padding: 10px;">
+    <select id="pCategory" style="width:100%; margin: 10px 0; padding: 10px;">
+        <option value="beauty">Beauty</option>
+        <option value="home">Home Decor</option>
+    </select>
+    <button class="admin-btn" onclick="saveProduct()">PUBLISH TO SITE</button>
+</div>
+
+<div class="secret-dot" onclick="checkAuth()"></div>
+
+<script>
+    const KEY = "kaka123"; 
+
+    function checkAuth() {
+        if(prompt("Identity Confirmation Required:") === KEY) {
+            document.getElementById('adminPanel').style.display = 'block';
+        }
+    }
+
+    function closeAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
+
+    function saveProduct() {
+        let name = document.getElementById('pName').value;
+        let img = document.getElementById('pImg').value;
+        let link = document.getElementById('pLink').value;
+        let cat = document.getElementById('pCategory').value;
+
+        if(!name || !img) return alert("Please provide details.");
+
+        let items = JSON.parse(localStorage.getItem('aura_items')) || [];
+        items.push({name, img, link, cat});
+        localStorage.setItem('aura_items', JSON.stringify(items));
+        
+        render();
+        closeAdmin();
+    }
+
+    function render() {
+        let items = JSON.parse(localStorage.getItem('aura_items')) || [];
+        document.getElementById('beautyGrid').innerHTML = '';
+        document.getElementById('homeGrid').innerHTML = '';
+
+        items.forEach(i => {
+            let card = `
+                <div class="product-card">
+                    <div class="img-holder">
+                        <img src="${i.img}" class="product-img">
+                    </div>
+                    <div style="padding-top:20px; text-align:center;">
+                        <span style="color:var(--gold); font-size:10px; letter-spacing:2px; text-transform:uppercase;">${i.cat}</span>
+                        <h3 style="font-family:'Playfair Display'; font-size:1.5rem; margin:10px 0;">${i.name}</h3>
+                        <a href="${i.link}" target="_blank" style="text-decoration:none; color:black; font-size:11px; border-bottom:1px solid var(--gold); padding-bottom:5px;">DISCOVER PIECE</a>
+                    </div>
+                </div>`;
+            document.getElementById(i.cat + 'Grid').innerHTML += card;
+        });
+    }
+
+    window.onload = render;
+</script>
+
+</body>
+</html>
