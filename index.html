@@ -3,114 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura & Abode | Permanent Fix</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <title>Aura & Abode</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <style>
-        :root { --gold: #c5a859; --black: #121212; --white: #ffffff; --cream: #f4eee1; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--white); margin: 0; color: var(--black); }
-        nav { padding: 25px; text-align: center; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 100; }
-        .logo { font-family: 'Playfair Display'; font-size: 1.8rem; letter-spacing: 4px; font-weight: 700; }
-        .hero { height: 40vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
-        .hero h1 { font-family: 'Playfair Display'; font-size: 2.5rem; font-style: italic; }
-        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-        .section-header { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .product-card { background: white; text-align: center; text-decoration: none; color: inherit; display: block; transition: 0.3s; }
-        .img-holder { width: 100%; height: 380px; background: #f9f9f9; overflow: hidden; margin-bottom: 15px; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; }
-        .discover-link { font-size: 10px; letter-spacing: 2px; border-bottom: 1px solid #ccc; padding-bottom: 4px; display: inline-block; margin-top: 10px; }
-        #adminPanel { display: none; position: fixed; bottom: 70px; right: 20px; background: white; padding: 25px; width: 260px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); z-index: 1000; border: 1px solid var(--gold); }
-        .secret-dot { position: fixed; bottom: 5px; right: 5px; width: 15px; height: 15px; cursor: pointer; opacity: 0.1; z-index: 1001; }
-        .close-btn { position: absolute; top: 5px; right: 10px; cursor: pointer; font-size: 20px; }
-        @media screen and (max-width: 600px) {
-            .products-grid { grid-template-columns: 1fr !important; }
-            .hero h1 { font-size: 1.8rem; }
+        body { font-family: 'Times New Roman', serif; margin: 0; background: #fdfcf9; color: #333; }
+        header { text-align: center; padding: 50px 20px; border-bottom: 1px solid #eee; }
+        h1 { font-weight: normal; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 10px; }
+        .tagline { font-style: italic; color: #777; font-size: 1.2rem; }
+
+        /* Pinterest Style Floating Layout */
+        #productsContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover { transform: translateY(-10px); }
+        .product-card img { width: 100%; height: auto; display: block; }
+        .card-info { padding: 15px; text-align: center; }
+        .card-info h3 { margin: 10px 0; font-size: 1.1rem; }
+        .card-info p { color: #888; font-weight: bold; }
+        .card-info a { 
+            display: inline-block; margin-top: 10px; padding: 8px 15px;
+            border: 1px solid #333; text-decoration: none; color: #333; font-size: 0.8rem;
+        }
+
+        /* Admin Panel */
+        #adminPanel {
+            display: none; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); background: white;
+            padding: 30px; border: 1px solid #ccc; z-index: 1000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2); width: 300px;
+        }
+        #adminPanel input, #adminPanel select { width: 90%; padding: 8px; margin-bottom: 10px; }
+        .secret-dot {
+            position: fixed; bottom: 10px; right: 10px; width: 10px; height: 10px;
+            background: #eee; border-radius: 50%; cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <nav><div class="logo">AURA & ABODE</div></nav>
-    <section class="hero"><h1>The Art of Refined Living</h1></section>
+    <header>
+        <h1>AURA & ABODE</h1>
+        <p class="tagline">The Art of Refined Living</p>
+    </header>
 
-    <div class="main-container">
-        <div class="section-header">Beauty Edit</div>
-        <div id="beautyGrid" class="products-grid"></div>
-        <div class="section-header">Home & Interior</div>
-        <div id="homeGrid" class="products-grid"></div>
-    </div>
+    <div id="productsContainer">
+        </div>
+
+    <div class="secret-dot" onclick="toggleAdmin()"></div>
 
     <div id="adminPanel">
-        <span class="close-btn" onclick="this.parentElement.style.display='none'">×</span>
-        <h4 style="margin-top:0;">Add Luxury Piece</h4>
-        <input type="text" id="pName" placeholder="Name" style="width:90%; padding:8px; margin-bottom:10px;">
-        <input type="text" id="pPrice" placeholder="Price" style="width:90%; padding:8px; margin-bottom:10px;">
-        <input type="text" id="pImg" placeholder="Image URL" style="width:90%; padding:8px; margin-bottom:10px;">
-        <input type="text" id="pLink" placeholder="Affiliate Link" style="width:90%; padding:8px; margin-bottom:10px;">
-        <select id="pCat" style="width:98%; padding:8px; margin-bottom:15px;">
+        <h3>Add Luxury Piece</h3>
+        <input type="text" id="pName" placeholder="Product Name">
+        <input type="text" id="pPrice" placeholder="Price (e.g. $42.51)">
+        <input type="text" id="pImg" placeholder="Image URL from Pinterest">
+        <input type="text" id="pLink" placeholder="Pinterest Affiliate Link">
+        <select id="pCat">
             <option value="beauty">Beauty</option>
             <option value="home">Home</option>
         </select>
-        <button onclick="addProduct()" style="width:100%; background:black; color:white; padding:10px; border:none; cursor:pointer; font-weight:bold;">SAVE PIECE</button>
+        <button onclick="addProduct()" style="width:100%; background:black; color:white; padding:10px; cursor:pointer;">SAVE PIECE</button>
+        <button onclick="toggleAdmin()" style="width:100%; background:none; border:none; margin-top:10px; cursor:pointer;">Close</button>
     </div>
-    <div class="secret-dot" onclick="toggleAdmin()"></div>
 
     <script>
-        // Use your specific database URL from the screenshot
+        // Apka Verified Firebase Config
         const firebaseConfig = {
-  apiKey: "AIzaSyBnINb-81FUEhcZCymeizBgGZCHR1P38Ug",
-  authDomain: "auraandabode-7c6c6.firebaseapp.com",
-  databaseURL: "https://auraandabode-7c6c6-default-rtdb.firebaseio.com",
-  projectId: "auraandabode-7c6c6",
-  storageBucket: "auraandabode-7c6c6.firebasestorage.app",
-  messagingSenderId: "173087020437",
-  appId: "1:173087020437:web:4bc94c3948a5ee55da929c",
-  measurementId: "G-G7GSERMW2H"
-};
+            apiKey: "AIzaSyBnINb-81FUEhcZCymeizBgGZCHR1P38Ug",
+            authDomain: "auraandabode-7c6c6.firebaseapp.com",
+            databaseURL: "https://auraandabode-7c6c6-default-rtdb.firebaseio.com",
+            projectId: "auraandabode-7c6c6",
+            storageBucket: "auraandabode-7c6c6.firebasestorage.app",
+            messagingSenderId: "173087020437",
+            appId: "1:173087020437:web:4bc94c3948a5ee55da929c",
+            measurementId: "G-G7GSERMW2H"
+        };
+
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // Database se data load karna
+        db.ref("products").on("value", (snapshot) => {
+            const container = document.getElementById("productsContainer");
+            container.innerHTML = ""; 
+            const data = snapshot.val();
+            if (data) {
+                Object.values(data).forEach(p => {
+                    container.innerHTML += `
+                        <div class="product-card">
+                            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300x400?text=Image+Error'">
+                            <div class="card-info">
+                                <h3>${p.name}</h3>
+                                <p>${p.price}</p>
+                                <a href="${p.link}" target="_blank">SHOP ON PINTEREST</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        });
+
         function toggleAdmin() {
-            if(prompt("Admin Password:") === "1234") document.getElementById('adminPanel').style.display='block';
+            const panel = document.getElementById("adminPanel");
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                const pass = prompt("Admin Password:");
+                if (pass === "1234") panel.style.display = "block";
+            }
         }
 
         function addProduct() {
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
-            const img = document.getElementById('pImg').value;
-            const link = document.getElementById('pLink').value;
-            const cat = document.getElementById('pCat').value;
+            const name = document.getElementById("pName").value;
+            const price = document.getElementById("pPrice").value;
+            const img = document.getElementById("pImg").value;
+            const link = document.getElementById("pLink").value;
+            const cat = document.getElementById("pCat").value;
 
-            if(!name || !price || !img || !link) return alert("Fill all fields");
-
-            db.ref('products/').push({name, price, img, link, cat})
-                .then(() => { alert("Saved Permanently!"); location.reload(); })
-                .catch((err) => { alert("Error: Rules might be locked. Please check Firebase Rules tab."); });
-        }
-
-        db.ref('products/').on('value', (snap) => {
-            const data = snap.val();
-            const bGrid = document.getElementById('beautyGrid');
-            const hGrid = document.getElementById('homeGrid');
-            bGrid.innerHTML = ''; hGrid.innerHTML = '';
-            
-            if(!data) return;
-
-            for(let id in data) {
-                let i = data[id];
-                let card = `
-                    <a href="${i.link}" target="_blank" class="product-card">
-                        <div class="img-holder"><img src="${i.img}" class="product-img"></div>
-                        <h3 style="font-family:'Playfair Display'; margin:5px 0;">${i.name}</h3>
-                        <p style="margin:0; font-size:0.9rem;">${i.price}</p>
-                        <span class="discover-link">DISCOVER PIECE</span>
-                    </a>`;
-                if(i.cat === 'beauty') bGrid.innerHTML += card;
-                else hGrid.innerHTML += card;
+            if(name && price && img && link) {
+                db.ref("products").push({ name, price, img, link, cat })
+                .then(() => {
+                    alert("Piece Saved Permanently!");
+                    document.getElementById("pName").value = "";
+                    document.getElementById("pPrice").value = "";
+                    document.getElementById("pImg").value = "";
+                    document.getElementById("pLink").value = "";
+                    toggleAdmin();
+                })
+                .catch(err => alert("Error: Rules check karein! " + err));
+            } else {
+                alert("Please fill all fields!");
             }
-        });
+        }
     </script>
 </body>
 </html>
