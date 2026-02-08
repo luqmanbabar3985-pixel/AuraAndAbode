@@ -10,37 +10,45 @@
     <style>
         body { font-family: 'Playfair Display', serif; margin: 0; background: #faf9f6; color: #2c2c2c; }
         
-        /* Dark Top Contrast Portion */
-        .hero-section { background: #e0deda; text-align: center; padding: 80px 20px; border-bottom: 1px solid #d4d2cd; }
-        h1 { font-weight: 300; letter-spacing: 8px; text-transform: uppercase; font-size: 2.5rem; margin: 0; }
-        .tagline { font-style: italic; opacity: 0.7; margin-top: 15px; font-size: 1.5rem; }
+        /* Contrast Hero Section */
+        .hero-section { background: #e0deda; text-align: center; padding: 40px 10px; border-bottom: 1px solid #d4d2cd; }
+        h1 { font-weight: 300; letter-spacing: 4px; text-transform: uppercase; font-size: 1.6rem; margin: 0; }
+        .tagline { font-style: italic; opacity: 0.7; margin-top: 5px; font-size: 0.9rem; }
 
-        /* Category Labels */
-        .category-title { padding: 40px 40px 10px; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; color: #888; border-bottom: 1px solid #eee; margin: 0 40px; }
-
+        /* Mobile First Grid: 2 Products Side-by-Side */
         #productsContainer {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px; padding: 40px; max-width: 1400px; margin: auto;
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); /* Mobile par 2 columns */
+            gap: 10px; 
+            padding: 10px; 
+            max-width: 1200px; 
+            margin: auto;
         }
 
-        /* Floating Pinterest Style */
+        /* Compact Pinterest Style Cards */
         .product-card {
-            background: white; border-radius: 0; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: all 0.4s ease;
-            cursor: pointer; text-align: center; padding-bottom: 20px;
+            background: white; border-radius: 2px; overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: all 0.3s ease;
+            cursor: pointer; text-align: center; padding-bottom: 8px;
         }
-        .product-card:hover { transform: translateY(-15px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-        .product-card img { width: 100%; height: auto; display: block; }
-        .product-card h3 { font-size: 1rem; margin: 15px 0 5px; font-weight: 400; }
-        .product-card p { font-size: 0.9rem; color: #999; }
+        .product-card img { width: 100%; height: auto; display: block; object-fit: cover; }
+        .product-card h3 { font-size: 0.75rem; margin: 8px 4px 2px; font-weight: 400; text-transform: capitalize; }
+        .product-card p { font-size: 0.7rem; color: #888; margin: 0; }
 
+        /* Admin UI */
         #adminPanel {
             display: none; position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%); background: white;
-            padding: 30px; z-index: 1000; box-shadow: 0 0 100px rgba(0,0,0,0.3); width: 320px;
+            padding: 20px; z-index: 1000; box-shadow: 0 0 100px rgba(0,0,0,0.3); width: 260px;
         }
-        #adminPanel input, #adminPanel select { width: 90%; padding: 10px; margin-bottom: 10px; }
+        #adminPanel input { width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #eee; }
         .secret-dot { position: fixed; bottom: 5px; right: 5px; width: 10px; height: 10px; background: transparent; cursor: pointer; }
+        
+        /* Desktop size adjustment */
+        @media (min-width: 768px) {
+            #productsContainer { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+            h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -50,24 +58,21 @@
         <p class="tagline">The Art of Refined Living</p>
     </div>
 
-    <div class="category-title">Beauty Edit</div>
-    <div id="beautyContainer" class="product-grid"></div>
-
     <div id="productsContainer"></div>
-
     <div class="secret-dot" onclick="toggleAdmin()"></div>
 
     <div id="adminPanel">
-        <h3 style="text-align:center; font-weight:300;">New Collection</h3>
+        <h3 style="text-align:center; font-weight:300;">Add Piece</h3>
         <input type="text" id="pName" placeholder="Name">
         <input type="text" id="pPrice" placeholder="Price">
         <input type="text" id="pImg" placeholder="Pinterest Image URL">
-        <input type="text" id="pLink" placeholder="Affiliate Link">
-        <button onclick="addProduct()" style="width:100%; background:#2c2c2c; color:white; border:none; padding:12px; cursor:pointer;">SAVE TO DATABASE</button>
-        <button onclick="document.getElementById('adminPanel').style.display='none'" style="width:100%; background:none; border:none; margin-top:10px; color:#999; cursor:pointer;">Cancel</button>
+        <input type="text" id="pLink" placeholder="Link">
+        <button onclick="addProduct()" style="width:100%; background:#2c2c2c; color:white; border:none; padding:12px; cursor:pointer;">SAVE PIECE</button>
+        <button onclick="document.getElementById('adminPanel').style.display='none'" style="width:100%; background:none; border:none; margin-top:5px; color:#999; cursor:pointer;">Cancel</button>
     </div>
 
     <script>
+        // Verified Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBnINb-81FUEhcZCymeizBgGZCHR1P38Ug",
             authDomain: "auraandabode-7c6c6.firebaseapp.com",
@@ -81,6 +86,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // Realtime Data Sync
         db.ref("products").on("value", (snapshot) => {
             const container = document.getElementById("productsContainer");
             container.innerHTML = ""; 
@@ -89,7 +95,7 @@
                 Object.values(data).forEach(p => {
                     container.innerHTML += `
                         <div class="product-card" onclick="window.open('${p.link}', '_blank')">
-                            <img src="${p.img}">
+                            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/200x300?text=Image+Error'">
                             <h3>${p.name}</h3>
                             <p>${p.price}</p>
                         </div>
@@ -111,7 +117,7 @@
             if(name && price && img && link) {
                 db.ref("products").push({ name, price, img, link })
                 .then(() => {
-                    alert("Saved Permanently!");
+                    alert("Saved!");
                     document.getElementById("adminPanel").style.display = "none";
                 });
             }
