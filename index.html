@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura & Abode | Luxury Affiliate</title>
+    <title>Aura & Abode | Luxury Edit</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c5a859; --black: #121212; --white: #ffffff; --cream: #f4eee1; }
@@ -13,52 +13,69 @@
         .float-icon { position: absolute; font-size: 40px; color: var(--gold); opacity: 0.3; z-index: 1; pointer-events: none; animation: luxuryFloat 8s infinite ease-in-out; }
         @keyframes luxuryFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
 
-        /* Navigation & Hero */
-        nav { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 100; }
-        .hero { height: 60vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-style: italic; }
+        /* Layout */
+        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 100; }
+        .logo { font-family: 'Playfair Display'; font-size: 2rem; letter-spacing: 5px; font-weight: 700; }
+        .hero { height: 70vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
+        .hero h1 { font-family: 'Playfair Display'; font-size: 4rem; font-style: italic; }
 
-        /* Product Grid */
-        .main-container { max-width: 1400px; margin: 60px auto; padding: 0 30px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; transition: 0.3s; }
-        .img-holder { width: 100%; height: 350px; overflow: hidden; background: #f9f9f9; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; }
-        .buy-btn { display: inline-block; margin-top: 15px; padding: 10px 20px; background: var(--black); color: white; text-decoration: none; font-size: 12px; letter-spacing: 1px; }
+        .main-container { max-width: 1400px; margin: 80px auto; padding: 0 40px; }
+        .section-header { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; }
+        
+        /* Grid Fix */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; margin-bottom: 100px; }
 
-        /* Admin Panel Setup */
-        #adminPanel { display: none; position: fixed; bottom: 50px; right: 20px; background: white; padding: 25px; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--gold); }
-        .secret-dot { position: fixed; bottom: 5px; right: 5px; width: 10px; height: 10px; cursor: pointer; opacity: 0.1; z-index: 1001; }
+        .product-card { background: white; transition: 0.4s; text-align: center; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .img-holder { width: 100%; height: 450px; background: #f9f9f9; overflow: hidden; margin-bottom: 25px; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; }
+        .product-card:hover .product-img { transform: scale(1.05); }
 
-        /* Mobile Adjustments */
+        /* Discover Piece Look */
+        .discover-link { font-size: 11px; letter-spacing: 2px; text-decoration: none; color: var(--black); border-bottom: 1px solid #ccc; padding-bottom: 5px; display: inline-block; margin-top: 15px; opacity: 0.8; }
+
+        /* Admin & Secret Access */
+        #adminPanel { display: none; position: fixed; bottom: 80px; right: 40px; background: white; padding: 30px; width: 300px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--gold); }
+        .secret-dot { position: fixed; bottom: 10px; right: 10px; width: 12px; height: 12px; cursor: pointer; opacity: 0.05; z-index: 1001; }
+
+        /* Mobile View Fix */
         @media screen and (max-width: 600px) {
-            .hero h1 { font-size: 2rem; }
-            .products-grid { grid-template-columns: 1fr !important; }
+            .hero h1 { font-size: 2.2rem; }
+            .products-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+            .img-holder { height: 350px !important; }
+            .main-container { padding: 0 20px; margin-top: 40px; }
             .float-icon { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="float-icon" style="top:20%; left:5%;">✨</div>
-    <div class="float-icon" style="top:50%; right:5%;">💄</div>
+    <div class="float-icon" style="top:15%; left:5%;">✨</div>
+    <div class="float-icon" style="top:40%; right:5%;">💄</div>
 
-    <nav><div style="font-family:'Playfair Display'; font-size:1.5rem; font-weight:700;">AURA & ABODE</div></nav>
+    <nav><div class="logo">AURA & ABODE</div><div style="font-size:10px; letter-spacing:3px;">EST. 2026</div></nav>
 
     <section class="hero"><h1>The Art of Refined Living</h1></section>
 
     <div class="main-container">
-        <h2>Collection</h2>
-        <div id="productGrid" class="products-grid"></div>
+        <div class="section-header"><h2>Beauty Edit</h2></div>
+        <div id="beautyGrid" class="products-grid"></div>
+
+        <div class="section-header"><h2>Home & Interior</h2></div>
+        <div id="homeGrid" class="products-grid"></div>
     </div>
 
     <div id="adminPanel">
-        <h4>Add Affiliate Product</h4>
-        <input type="text" id="pName" placeholder="Product Name" style="width:100%; margin-bottom:10px;">
-        <input type="text" id="pPrice" placeholder="Price" style="width:100%; margin-bottom:10px;">
-        <input type="text" id="pImg" placeholder="Image URL" style="width:100%; margin-bottom:10px;">
-        <input type="text" id="pLink" placeholder="Affiliate Link" style="width:100%; margin-bottom:10px;">
-        <button onclick="addProduct()" style="width:100%; background:var(--black); color:white; border:none; padding:10px;">ADD PRODUCT</button>
+        <h4 style="margin:0 0 20px 0;">Add Luxury Piece</h4>
+        <input type="text" id="pName" placeholder="Product Name" style="width:94%; padding:10px; margin-bottom:10px;">
+        <input type="text" id="pPrice" placeholder="Price (e.g. $85)" style="width:94%; padding:10px; margin-bottom:10px;">
+        <input type="text" id="pImg" placeholder="Image URL" style="width:94%; padding:10px; margin-bottom:10px;">
+        <input type="text" id="pLink" placeholder="Affiliate Link" style="width:94%; padding:10px; margin-bottom:10px;">
+        <select id="pCat" style="width:100%; padding:10px; margin-bottom:10px;">
+            <option value="beauty">Beauty</option>
+            <option value="home">Home Decor</option>
+        </select>
+        <button onclick="addProduct()" style="width:100%; background:black; color:white; padding:12px; border:none; cursor:pointer; font-weight:700;">ADD TO COLLECTION</button>
+        <button onclick="if(confirm('Delete all?')){localStorage.removeItem('aura_items'); location.reload();}" style="width:100%; background:#f0f0f0; padding:8px; border:none; margin-top:10px; cursor:pointer;">CLEAR ALL</button>
     </div>
     <div class="secret-dot" onclick="toggleAdmin()"></div>
 
@@ -66,9 +83,9 @@
         // Password Protection
         function toggleAdmin() {
             let pass = prompt("Enter Admin Password:");
-            if(pass === "1234") { // Apna password yahan set karein
+            if(pass === "1234") {
                 document.getElementById('adminPanel').style.display = 'block';
-            } else { alert("Wrong Password"); }
+            } else { alert("Access Denied"); }
         }
 
         function addProduct() {
@@ -76,26 +93,37 @@
             const price = document.getElementById('pPrice').value;
             const img = document.getElementById('pImg').value;
             const link = document.getElementById('pLink').value;
+            const cat = document.getElementById('pCat').value;
+
+            if(!name || !price || !img || !link) return alert("Fill all fields");
 
             let items = JSON.parse(localStorage.getItem('aura_items')) || [];
-            items.push({name, price, img, link});
+            items.push({name, price, img, link, cat});
             localStorage.setItem('aura_items', JSON.stringify(items));
             location.reload();
         }
 
         function render() {
-            let items = JSON.parse(localStorage.getItem('aura_items')) || [];
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = items.length === 0 ? '<p>No products yet. Use secret dot to add.</p>' : '';
+            let items = JSON.parse(localStorage.getItem('aura_items')) || [
+                { name: 'Luxury Rose Oil', price: '$85', img: 'https://images.unsplash.com/photo-1596462502278-27bfad40038a', cat: 'beauty', link: '#' }
+            ];
+            
+            const bGrid = document.getElementById('beautyGrid');
+            const hGrid = document.getElementById('homeGrid');
+            bGrid.innerHTML = ''; hGrid.innerHTML = '';
 
             items.forEach(i => {
-                grid.innerHTML += `
-                    <div class="product-card">
+                let card = `
+                    <a href="${i.link}" target="_blank" class="product-card">
                         <div class="img-holder"><img src="${i.img}" class="product-img"></div>
-                        <h3>${i.name}</h3>
-                        <p style="color:var(--gold); font-weight:700;">${i.price}</p>
-                        <a href="${i.link}" target="_blank" class="buy-btn">SHOP NOW</a>
-                    </div>`;
+                        <span style="color:var(--gold); font-size:10px; letter-spacing:2px;">${i.cat.toUpperCase()}</span>
+                        <h3 style="font-family:'Playfair Display'; font-size:1.4rem; margin:10px 0;">${i.name}</h3>
+                        <p style="font-weight:400; margin:0;">${i.price}</p>
+                        <span class="discover-link">DISCOVER PIECE</span>
+                    </a>`;
+                
+                if(i.cat === 'beauty') bGrid.innerHTML += card;
+                else hGrid.innerHTML += card;
             });
         }
         window.onload = render;
