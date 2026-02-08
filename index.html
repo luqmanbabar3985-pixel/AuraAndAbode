@@ -3,145 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura & Abode | High-End Luxury</title>
+    <title>Aura & Abode | Luxury Affiliate</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c5a859; --black: #121212; --white: #ffffff; --cream: #f4eee1; }
         body { font-family: 'Montserrat', sans-serif; background: var(--white); margin: 0; overflow-x: hidden; color: var(--black); }
 
-        /* Floating Luxury Icons */
-        .float-icon {
-            position: absolute; font-size: 50px; color: var(--gold); opacity: 0.4;
-            z-index: 1; pointer-events: none;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
-            animation: luxuryFloat 8s infinite ease-in-out;
-        }
-        @keyframes luxuryFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-40px) rotate(20deg); }
-        }
+        /* Floating Icons */
+        .float-icon { position: absolute; font-size: 40px; color: var(--gold); opacity: 0.3; z-index: 1; pointer-events: none; animation: luxuryFloat 8s infinite ease-in-out; }
+        @keyframes luxuryFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
 
-        /* Layout Styles */
-        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 100; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 2rem; letter-spacing: 5px; font-weight: 700; }
-        .hero { height: 70vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; position: relative; }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 4rem; font-style: italic; position: relative; z-index: 5; }
-        
-        .main-container { max-width: 1400px; margin: 100px auto; padding: 0 40px; position: relative; }
-        .section-header { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; position: relative; z-index: 5; }
-        
-        .product-card { background: white; border: 1px solid #eee; padding: 20px; transition: 0.4s; position: relative; }
-        .img-holder { width: 100%; height: 400px; background: #f9f9f9; overflow: hidden; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
-        .product-card:hover .product-img { transform: scale(1.1); }
+        /* Navigation & Hero */
+        nav { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 100; }
+        .hero { height: 60vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-style: italic; }
 
-        /* Admin & Secret Access */
-        #adminPanel { display: none; position: fixed; bottom: 80px; right: 40px; background: white; padding: 35px; width: 320px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--gold); }
-        .admin-btn { background: var(--black); color: white; padding: 15px; width: 100%; border: none; cursor: pointer; font-weight: bold; margin-top: 10px; }
-        .secret-dot { position: fixed; bottom: 10px; right: 10px; width: 12px; height: 12px; cursor: pointer; opacity: 0.05; z-index: 1001; }
+        /* Product Grid */
+        .main-container { max-width: 1400px; margin: 60px auto; padding: 0 30px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: white; border: 1px solid #eee; padding: 15px; text-align: center; transition: 0.3s; }
+        .img-holder { width: 100%; height: 350px; overflow: hidden; background: #f9f9f9; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
+        .buy-btn { display: inline-block; margin-top: 15px; padding: 10px 20px; background: var(--black); color: white; text-decoration: none; font-size: 12px; letter-spacing: 1px; }
 
-        /* Mobile View Fix */
+        /* Admin Panel Setup */
+        #adminPanel { display: none; position: fixed; bottom: 50px; right: 20px; background: white; padding: 25px; width: 280px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--gold); }
+        .secret-dot { position: fixed; bottom: 5px; right: 5px; width: 10px; height: 10px; cursor: pointer; opacity: 0.1; z-index: 1001; }
+
+        /* Mobile Adjustments */
         @media screen and (max-width: 600px) {
-            .hero h1 { font-size: 2.2rem !important; }
-            .products-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
-            .float-icon { font-size: 30px !important; } /* Icons chote kar diye taake screen block na ho */
-            .img-holder { height: 300px !important; }
-            .main-container { margin: 50px auto; padding: 0 20px; }
+            .hero h1 { font-size: 2rem; }
+            .products-grid { grid-template-columns: 1fr !important; }
+            .float-icon { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <div class="float-icon" style="top:15%; left:5%;">✨</div>
-    <div class="float-icon" style="top:40%; right:8%; animation-delay:2s;">💄</div>
-    <div class="float-icon" style="bottom:20%; left:10%; animation-delay:4s;">🏺</div>
+    <div class="float-icon" style="top:20%; left:5%;">✨</div>
+    <div class="float-icon" style="top:50%; right:5%;">💄</div>
 
-    <nav>
-        <div class="logo">AURA & ABODE</div>
-        <div style="font-size:10px; letter-spacing:3px;">EST. 2026</div>
-    </nav>
+    <nav><div style="font-family:'Playfair Display'; font-size:1.5rem; font-weight:700;">AURA & ABODE</div></nav>
 
-    <section class="hero">
-        <h1>The Art of Refined Living</h1>
-    </section>
+    <section class="hero"><h1>The Art of Refined Living</h1></section>
 
     <div class="main-container">
-        <div class="section-header"><h2>Beauty Edit</h2></div>
-        <div id="beautyGrid" class="products-grid"></div>
-
-        <div class="section-header" style="margin-top:100px;"><h2>Home & Interior</h2></div>
-        <div id="homeGrid" class="products-grid"></div>
+        <h2>Collection</h2>
+        <div id="productGrid" class="products-grid"></div>
     </div>
 
     <div id="adminPanel">
-        <h3 style="margin-top:0;">Add New Product</h3>
-        <input type="text" id="pName" placeholder="Product Name" style="width:100%; margin-bottom:10px; padding:8px;">
-        <input type="text" id="pPrice" placeholder="Price (e.g. $85)" style="width:100%; margin-bottom:10px; padding:8px;">
-        <input type="text" id="pImg" placeholder="Image URL" style="width:100%; margin-bottom:10px; padding:8px;">
-        <select id="pCat" style="width:100%; margin-bottom:10px; padding:8px;">
-            <option value="beauty">Beauty</option>
-            <option value="home">Home</option>
-        </select>
-        <button class="admin-btn" onclick="addProduct()">ADD TO COLLECTION</button>
-        <button class="admin-btn" style="background:#cc0000;" onclick="clearAll()">CLEAR ALL</button>
+        <h4>Add Affiliate Product</h4>
+        <input type="text" id="pName" placeholder="Product Name" style="width:100%; margin-bottom:10px;">
+        <input type="text" id="pPrice" placeholder="Price" style="width:100%; margin-bottom:10px;">
+        <input type="text" id="pImg" placeholder="Image URL" style="width:100%; margin-bottom:10px;">
+        <input type="text" id="pLink" placeholder="Affiliate Link" style="width:100%; margin-bottom:10px;">
+        <button onclick="addProduct()" style="width:100%; background:var(--black); color:white; border:none; padding:10px;">ADD PRODUCT</button>
     </div>
     <div class="secret-dot" onclick="toggleAdmin()"></div>
 
     <script>
-        // Admin Functions
+        // Password Protection
         function toggleAdmin() {
-            const panel = document.getElementById('adminPanel');
-            panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            let pass = prompt("Enter Admin Password:");
+            if(pass === "1234") { // Apna password yahan set karein
+                document.getElementById('adminPanel').style.display = 'block';
+            } else { alert("Wrong Password"); }
         }
 
         function addProduct() {
             const name = document.getElementById('pName').value;
             const price = document.getElementById('pPrice').value;
             const img = document.getElementById('pImg').value;
-            const cat = document.getElementById('pCat').value;
-            
-            if(!name || !price || !img) return alert("Please fill all fields");
+            const link = document.getElementById('pLink').value;
 
             let items = JSON.parse(localStorage.getItem('aura_items')) || [];
-            items.push({name, price, img, cat});
+            items.push({name, price, img, link});
             localStorage.setItem('aura_items', JSON.stringify(items));
-            
-            alert("Product Added!");
             location.reload();
         }
 
-        function clearAll() {
-            if(confirm("Delete all products?")) {
-                localStorage.removeItem('aura_items');
-                location.reload();
-            }
-        }
-
-        // Render Function
         function render() {
-            let items = JSON.parse(localStorage.getItem('aura_items')) || [
-                { name: 'Luxury Rose Oil', price: '$85', img: 'https://images.unsplash.com/photo-1596462502278-27bfad40038a', cat: 'beauty' },
-                { name: 'Gold Serum', price: '$120', img: 'https://images.unsplash.com/photo-1620916566398-39f1143f2c42', cat: 'beauty' },
-                { name: 'Velvet Cushion', price: '$45', img: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2', cat: 'home' }
-            ];
-            
-            const bGrid = document.getElementById('beautyGrid');
-            const hGrid = document.getElementById('homeGrid');
-            bGrid.innerHTML = ''; hGrid.innerHTML = '';
+            let items = JSON.parse(localStorage.getItem('aura_items')) || [];
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = items.length === 0 ? '<p>No products yet. Use secret dot to add.</p>' : '';
 
             items.forEach(i => {
-                let card = `
+                grid.innerHTML += `
                     <div class="product-card">
                         <div class="img-holder"><img src="${i.img}" class="product-img"></div>
-                        <div style="padding-top:20px; text-align:center;">
-                            <span style="color:var(--gold); font-size:10px; letter-spacing:2px;">${i.cat.toUpperCase()}</span>
-                            <h3 style="font-family:'Playfair Display'; font-size:1.2rem; margin:10px 0;">${i.name}</h3>
-                            <p style="font-weight:700;">${i.price}</p>
-                        </div>
+                        <h3>${i.name}</h3>
+                        <p style="color:var(--gold); font-weight:700;">${i.price}</p>
+                        <a href="${i.link}" target="_blank" class="buy-btn">SHOP NOW</a>
                     </div>`;
-                if(i.cat === 'beauty') bGrid.innerHTML += card;
-                else hGrid.innerHTML += card;
             });
         }
         window.onload = render;
