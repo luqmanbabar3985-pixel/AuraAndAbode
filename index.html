@@ -3,92 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aura & Abode | Luxury Edit</title>
+    <title>Aura & Abode | Permanent Fix</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <style>
         :root { --gold: #c5a859; --black: #121212; --white: #ffffff; --cream: #f4eee1; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--white); margin: 0; overflow-x: hidden; color: var(--black); }
-
-        /* Floating Icons */
-        .float-icon { position: absolute; font-size: 40px; color: var(--gold); opacity: 0.3; z-index: 1; pointer-events: none; animation: luxuryFloat 8s infinite ease-in-out; }
-        @keyframes luxuryFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
-
-        /* Layout */
-        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; position: sticky; top: 0; background: white; z-index: 100; }
-        .logo { font-family: 'Playfair Display'; font-size: 2rem; letter-spacing: 5px; font-weight: 700; }
-        .hero { height: 70vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
-        .hero h1 { font-family: 'Playfair Display'; font-size: 4rem; font-style: italic; }
-
-        .main-container { max-width: 1400px; margin: 80px auto; padding: 0 40px; }
-        .section-header { margin-bottom: 60px; border-bottom: 1px solid #ddd; padding-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; }
-        
-        /* Grid Fix */
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; margin-bottom: 100px; }
-
-        .product-card { background: white; transition: 0.4s; text-align: center; cursor: pointer; text-decoration: none; color: inherit; display: block; }
-        .img-holder { width: 100%; height: 450px; background: #f9f9f9; overflow: hidden; margin-bottom: 25px; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s; }
-        .product-card:hover .product-img { transform: scale(1.05); }
-
-        /* Discover Piece Look */
-        .discover-link { font-size: 11px; letter-spacing: 2px; text-decoration: none; color: var(--black); border-bottom: 1px solid #ccc; padding-bottom: 5px; display: inline-block; margin-top: 15px; opacity: 0.8; }
-
-        /* Admin & Secret Access */
-        #adminPanel { display: none; position: fixed; bottom: 80px; right: 40px; background: white; padding: 30px; width: 300px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--gold); }
-        .secret-dot { position: fixed; bottom: 10px; right: 10px; width: 12px; height: 12px; cursor: pointer; opacity: 0.05; z-index: 1001; }
-        
-        /* New Close Button Style */
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; font-weight: bold; color: #888; }
-        .close-btn:hover { color: var(--black); }
-
-        /* Mobile View Fix */
+        body { font-family: 'Montserrat', sans-serif; background: var(--white); margin: 0; color: var(--black); }
+        nav { padding: 25px; text-align: center; border-bottom: 1px solid #eee; background: white; position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Playfair Display'; font-size: 1.8rem; letter-spacing: 4px; font-weight: 700; }
+        .hero { height: 40vh; display: flex; align-items: center; justify-content: center; background: var(--cream); text-align: center; }
+        .hero h1 { font-family: 'Playfair Display'; font-size: 2.5rem; font-style: italic; }
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .section-header { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
+        .product-card { background: white; text-align: center; text-decoration: none; color: inherit; display: block; transition: 0.3s; }
+        .img-holder { width: 100%; height: 380px; background: #f9f9f9; overflow: hidden; margin-bottom: 15px; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
+        .discover-link { font-size: 10px; letter-spacing: 2px; border-bottom: 1px solid #ccc; padding-bottom: 4px; display: inline-block; margin-top: 10px; }
+        #adminPanel { display: none; position: fixed; bottom: 70px; right: 20px; background: white; padding: 25px; width: 260px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); z-index: 1000; border: 1px solid var(--gold); }
+        .secret-dot { position: fixed; bottom: 5px; right: 5px; width: 15px; height: 15px; cursor: pointer; opacity: 0.1; z-index: 1001; }
+        .close-btn { position: absolute; top: 5px; right: 10px; cursor: pointer; font-size: 20px; }
         @media screen and (max-width: 600px) {
-            .hero h1 { font-size: 2.2rem; }
-            .products-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
-            .img-holder { height: 350px !important; }
-            .main-container { padding: 0 20px; margin-top: 40px; }
-            .float-icon { display: none; }
+            .products-grid { grid-template-columns: 1fr !important; }
+            .hero h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="float-icon" style="top:15%; left:5%;">✨</div>
-    <div class="float-icon" style="top:40%; right:5%;">💄</div>
-
-    <nav><div class="logo">AURA & ABODE</div><div style="font-size:10px; letter-spacing:3px;">EST. 2026</div></nav>
-
+    <nav><div class="logo">AURA & ABODE</div></nav>
     <section class="hero"><h1>The Art of Refined Living</h1></section>
 
     <div class="main-container">
-        <div class="section-header"><h2>Beauty Edit</h2></div>
+        <div class="section-header">Beauty Edit</div>
         <div id="beautyGrid" class="products-grid"></div>
-
-        <div class="section-header" style="margin-top:100px;"><h2>Home & Interior</h2></div>
+        <div class="section-header">Home & Interior</div>
         <div id="homeGrid" class="products-grid"></div>
     </div>
 
     <div id="adminPanel">
-        <span class="close-btn" onclick="document.getElementById('adminPanel').style.display='none'">×</span>
-        <h4 style="margin:0 0 20px 0;">Add Luxury Piece</h4>
-        <input type="text" id="pName" placeholder="Product Name" style="width:94%; padding:10px; margin-bottom:10px;">
-        <input type="text" id="pPrice" placeholder="Price (e.g. $85)" style="width:94%; padding:10px; margin-bottom:10px;">
-        <input type="text" id="pImg" placeholder="Image URL" style="width:94%; padding:10px; margin-bottom:10px;">
-        <input type="text" id="pLink" placeholder="Affiliate Link" style="width:94%; padding:10px; margin-bottom:10px;">
-        <select id="pCat" style="width:100%; padding:10px; margin-bottom:10px;">
+        <span class="close-btn" onclick="this.parentElement.style.display='none'">×</span>
+        <h4 style="margin-top:0;">Add Luxury Piece</h4>
+        <input type="text" id="pName" placeholder="Name" style="width:90%; padding:8px; margin-bottom:10px;">
+        <input type="text" id="pPrice" placeholder="Price" style="width:90%; padding:8px; margin-bottom:10px;">
+        <input type="text" id="pImg" placeholder="Image URL" style="width:90%; padding:8px; margin-bottom:10px;">
+        <input type="text" id="pLink" placeholder="Affiliate Link" style="width:90%; padding:8px; margin-bottom:10px;">
+        <select id="pCat" style="width:98%; padding:8px; margin-bottom:15px;">
             <option value="beauty">Beauty</option>
-            <option value="home">Home Decor</option>
+            <option value="home">Home</option>
         </select>
-        <button onclick="addProduct()" style="width:100%; background:black; color:white; padding:12px; border:none; cursor:pointer; font-weight:700;">ADD TO COLLECTION</button>
+        <button onclick="addProduct()" style="width:100%; background:black; color:white; padding:10px; border:none; cursor:pointer; font-weight:bold;">SAVE PIECE</button>
     </div>
     <div class="secret-dot" onclick="toggleAdmin()"></div>
 
     <script>
+        // Use your specific database URL from the screenshot
+        const firebaseConfig = {
+  apiKey: "AIzaSyBnINb-81FUEhcZCymeizBgGZCHR1P38Ug",
+  authDomain: "auraandabode-7c6c6.firebaseapp.com",
+  databaseURL: "https://auraandabode-7c6c6-default-rtdb.firebaseio.com",
+  projectId: "auraandabode-7c6c6",
+  storageBucket: "auraandabode-7c6c6.firebasestorage.app",
+  messagingSenderId: "173087020437",
+  appId: "1:173087020437:web:4bc94c3948a5ee55da929c",
+  measurementId: "G-G7GSERMW2H"
+};
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         function toggleAdmin() {
-            let pass = prompt("Enter Admin Password:");
-            if(pass === "1234") {
-                document.getElementById('adminPanel').style.display = 'block';
-            } else { alert("Access Denied"); }
+            if(prompt("Admin Password:") === "1234") document.getElementById('adminPanel').style.display='block';
         }
 
         function addProduct() {
@@ -100,36 +85,32 @@
 
             if(!name || !price || !img || !link) return alert("Fill all fields");
 
-            let items = JSON.parse(localStorage.getItem('aura_items')) || [];
-            items.push({name, price, img, link, cat});
-            localStorage.setItem('aura_items', JSON.stringify(items));
-            location.reload();
+            db.ref('products/').push({name, price, img, link, cat})
+                .then(() => { alert("Saved Permanently!"); location.reload(); })
+                .catch((err) => { alert("Error: Rules might be locked. Please check Firebase Rules tab."); });
         }
 
-        function render() {
-            let items = JSON.parse(localStorage.getItem('aura_items')) || [
-                { name: 'Luxury Rose Oil', price: '$85', img: 'https://images.unsplash.com/photo-1596462502278-27bfad40038a', cat: 'beauty', link: '#' }
-            ];
-            
+        db.ref('products/').on('value', (snap) => {
+            const data = snap.val();
             const bGrid = document.getElementById('beautyGrid');
             const hGrid = document.getElementById('homeGrid');
             bGrid.innerHTML = ''; hGrid.innerHTML = '';
+            
+            if(!data) return;
 
-            items.forEach(i => {
+            for(let id in data) {
+                let i = data[id];
                 let card = `
                     <a href="${i.link}" target="_blank" class="product-card">
                         <div class="img-holder"><img src="${i.img}" class="product-img"></div>
-                        <span style="color:var(--gold); font-size:10px; letter-spacing:2px;">${i.cat.toUpperCase()}</span>
-                        <h3 style="font-family:'Playfair Display'; font-size:1.4rem; margin:10px 0;">${i.name}</h3>
-                        <p style="font-weight:400; margin:0;">${i.price}</p>
+                        <h3 style="font-family:'Playfair Display'; margin:5px 0;">${i.name}</h3>
+                        <p style="margin:0; font-size:0.9rem;">${i.price}</p>
                         <span class="discover-link">DISCOVER PIECE</span>
                     </a>`;
-                
                 if(i.cat === 'beauty') bGrid.innerHTML += card;
                 else hGrid.innerHTML += card;
-            });
-        }
-        window.onload = render;
+            }
+        });
     </script>
 </body>
 </html>
