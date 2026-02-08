@@ -36,6 +36,10 @@
         /* Admin & Secret Access */
         #adminPanel { display: none; position: fixed; bottom: 80px; right: 40px; background: white; padding: 30px; width: 300px; box-shadow: 0 30px 60px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid var(--gold); }
         .secret-dot { position: fixed; bottom: 10px; right: 10px; width: 12px; height: 12px; cursor: pointer; opacity: 0.05; z-index: 1001; }
+        
+        /* New Close Button Style */
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; font-weight: bold; color: #888; }
+        .close-btn:hover { color: var(--black); }
 
         /* Mobile View Fix */
         @media screen and (max-width: 600px) {
@@ -60,11 +64,12 @@
         <div class="section-header"><h2>Beauty Edit</h2></div>
         <div id="beautyGrid" class="products-grid"></div>
 
-        <div class="section-header"><h2>Home & Interior</h2></div>
+        <div class="section-header" style="margin-top:100px;"><h2>Home & Interior</h2></div>
         <div id="homeGrid" class="products-grid"></div>
     </div>
 
     <div id="adminPanel">
+        <span class="close-btn" onclick="document.getElementById('adminPanel').style.display='none'">×</span>
         <h4 style="margin:0 0 20px 0;">Add Luxury Piece</h4>
         <input type="text" id="pName" placeholder="Product Name" style="width:94%; padding:10px; margin-bottom:10px;">
         <input type="text" id="pPrice" placeholder="Price (e.g. $85)" style="width:94%; padding:10px; margin-bottom:10px;">
@@ -75,12 +80,10 @@
             <option value="home">Home Decor</option>
         </select>
         <button onclick="addProduct()" style="width:100%; background:black; color:white; padding:12px; border:none; cursor:pointer; font-weight:700;">ADD TO COLLECTION</button>
-        <button onclick="if(confirm('Delete all?')){localStorage.removeItem('aura_items'); location.reload();}" style="width:100%; background:#f0f0f0; padding:8px; border:none; margin-top:10px; cursor:pointer;">CLEAR ALL</button>
     </div>
     <div class="secret-dot" onclick="toggleAdmin()"></div>
 
     <script>
-        // Password Protection
         function toggleAdmin() {
             let pass = prompt("Enter Admin Password:");
             if(pass === "1234") {
